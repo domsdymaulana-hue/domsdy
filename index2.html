@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Map Story - Toko Produk Digital & Top Up Game</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header & Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-4">
+                
+                <!-- Logo Store -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('store'); filterCategory('all')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white font-black text-xl shadow-lg glow-effect">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-black tracking-wide bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">net map story</span>
+                        <span class="block text-[10px] text-indigo-400 -mt-1 font-bold tracking-widest uppercase">Digital & Game Store</span>
+                    </div>
+                </div>
+
+                <!-- Search Bar (Desktop) -->
+                <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
+                    <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Cari Game, Top Up Diamond, Voucher..." class="w-full bg-slate-800/80 text-slate-200 text-sm rounded-full pl-10 pr-4 py-2 border border-slate-700/80 focus:outline-none focus:border-indigo-500 transition shadow-inner">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400 text-sm"></i>
+                </div>
+
+                <!-- Right Actions: Mode Switch & Cart -->
+                <div class="flex items-center gap-3">
+                    <!-- Toggle Admin/Store Mode -->
+                    <button onclick="toggleAdminView()" id="viewModeBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-indigo-500/40 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 text-xs font-bold transition">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span id="viewModeLabel">Mode Admin</span>
+                    </button>
+
+                    <!-- Cart Button -->
+                    <button onclick="toggleCart()" class="relative p-2.5 text-slate-300 hover:text-white bg-slate-800/60 hover:bg-slate-800 rounded-xl border border-slate-700 transition">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                        <span id="cartCount" class="absolute -top-1.5 -right-1.5 bg-pink-600 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center border-2 border-slate-900">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Bar (Mobile) -->
+            <div class="pb-3 md:hidden">
+                <div class="relative w-full">
+                    <input type="text" id="searchInputMobile" onkeyup="searchProductsMobile()" placeholder="Cari Game, Top Up Diamond..." class="w-full bg-slate-800 text-slate-200 text-sm rounded-full pl-10 pr-4 py-2 border border-slate-700 focus:outline-none focus:border-indigo-500">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400 text-sm"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER Halaman Toko Pembeli (Store Front) -->
+    <div id="storeView" class="block flex-1">
+        
+        <!-- Hero Banner Promo -->
+        <section class="relative overflow-hidden bg-gradient-to-b from-indigo-950/60 via-slate-950 to-slate-950 py-10 sm:py-14">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="bg-gradient-to-r from-indigo-900/80 via-purple-900/80 to-slate-900 border border-indigo-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="space-y-4 max-w-xl text-center md:text-left">
+                        <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full text-xs font-bold tracking-wider uppercase">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Proses Otomatis 24 Jam
+                        </span>
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
+                            Pusat Top Up Game & Produk Digital <span class="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Terlengkap</span>
+                        </h1>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Top up Diamond Mobile Legends, Free Fire, PUBG Mobile, Genshin, Valorant, Akun Premium & Software Original dengan harga promo dan garansi legal 100%!
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
+                            <a href="#katalog" class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl transition shadow-lg glow-effect text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> Top Up Sekarang
+                            </a>
+                            <button onclick="toggleLiveChat()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold rounded-xl transition text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-headset text-indigo-400"></i> Konsultasi Admin
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hero Visual Graphic -->
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <div class="relative w-52 h-52 sm:w-64 sm:h-64 rounded-3xl bg-gradient-to-tr from-indigo-600/30 via-purple-600/30 to-pink-500/30 flex items-center justify-center border border-indigo-500/30 shadow-2xl backdrop-blur-sm">
+                            <i class="fa-solid fa-gem text-7xl text-cyan-400 animate-bounce"></i>
+                            <i class="fa-solid fa-shield-halved text-4xl text-emerald-400 absolute top-4 right-4"></i>
+                            <i class="fa-solid fa-fire text-4xl text-amber-400 absolute bottom-4 left-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catalog & Category Filter -->
+        <main id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-store text-indigo-400"></i> Katalog Produk Net Map Story
+                    </h2>
+                    <p class="text-slate-400 text-sm">Pilih produk atau game favoritmu di bawah ini</p>
+                </div>
+
+                <!-- Filter Category Buttons -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+                    <button onclick="filterCategory('all')" class="cat-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-indigo-600 text-white border border-indigo-500 shadow">
+                        Semua Produk
+                    </button>
+                    <button onclick="filterCategory('topup')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+                        ⚡ Top Up Game & Diamond
+                    </button>
+                    <button onclick="filterCategory('game_item')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+                        🎮 Akun & Key Game
+                    </button>
+                    <button onclick="filterCategory('voucher')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+                        🎟️ Voucher & Gift Card
+                    </button>
+                    <button onclick="filterCategory('software')" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition whitespace-nowrap bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+                        💻 Software & Digital Maps
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Cards Grid -->
+            <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Cards generated dynamically by JavaScript -->
+            </div>
+
+            <!-- Empty Search State -->
+            <div id="emptyState" class="hidden text-center py-16">
+                <i class="fa-solid fa-box-open text-6xl text-slate-700 mb-4"></i>
+                <h3 class="text-lg font-bold text-slate-300">Produk Tidak Ditemukan</h3>
+                <p class="text-slate-500 text-sm">Silakan cari dengan kata kunci lain.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- CONTAINER Halaman Admin & Auto-Reply Bot -->
+    <div id="adminView" class="hidden flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <!-- Admin Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-slate-900/80 p-6 rounded-2xl border border-slate-800">
+            <div>
+                <span class="px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-md text-xs font-bold uppercase tracking-wider">
+                    Panel Kontrol Admin
+                </span>
+                <h2 class="text-2xl font-black text-white mt-1">Dashboard & Bot Balas Otomatis</h2>
+                <p class="text-slate-400 text-sm">Kelola pesan masuk dari customer, keyword auto-reply bot, dan daftar produk.</p>
+            </div>
+            
+            <!-- Bot Status Indicator Toggle -->
+            <div class="flex items-center gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="text-right">
+                    <span class="block text-xs text-slate-400">Status Bot Otomatis</span>
+                    <span id="botStatusText" class="text-xs font-bold text-emerald-400">AKTIF (Auto Replying)</span>
+                </div>
+                <button onclick="toggleBotStatus()" id="botToggleBtn" class="w-12 h-6 bg-emerald-600 rounded-full relative p-1 transition">
+                    <div id="botToggleDot" class="w-4 h-4 bg-white rounded-full absolute right-1 transition"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                <span class="text-xs text-slate-400">Pesan Masuk (Hari Ini)</span>
+                <h3 id="statMessagesCount" class="text-2xl font-black text-indigo-400 mt-1">12</h3>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                <span class="text-xs text-slate-400">Respon Otomatis Bot</span>
+                <h3 id="statBotReplies" class="text-2xl font-black text-emerald-400 mt-1">28</h3>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                <span class="text-xs text-slate-400">Total Produk Aktif</span>
+                <h3 id="statTotalProducts" class="text-2xl font-black text-pink-400 mt-1">10</h3>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                <span class="text-xs text-slate-400">Status Sistem</span>
+                <h3 class="text-2xl font-black text-cyan-400 mt-1">ONLINE 24/7</h3>
+            </div>
+        </div>
+
+        <!-- Admin Main Section (2 Columns) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Live Chat Monitoring Panel -->
+            <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col h-[500px]">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                    <h3 class="font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-indigo-400"></i> Panel Live Chat Customer (Admin View)
+                    </h3>
+                    <span class="text-xs text-slate-400"><i class="fa-solid fa-circle text-emerald-400 text-[8px]"></i> Realtime Live Sync</span>
+                </div>
+
+                <!-- Admin Chat Message Area -->
+                <div id="adminChatBox" class="flex-1 overflow-y-auto py-4 space-y-3 pr-2">
+                    <!-- Messages rendered via JS -->
+                </div>
+
+                <!-- Admin Reply Input -->
+                <form onsubmit="sendAdminMessage(event)" class="pt-3 border-t border-slate-800 flex gap-2">
+                    <input type="text" id="adminReplyInput" placeholder="Ketik balasan manual dari Admin..." class="flex-1 bg-slate-950 text-slate-200 text-sm rounded-xl px-4 py-2.5 border border-slate-800 focus:outline-none focus:border-indigo-500">
+                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition text-sm">
+                        Kirim
+                    </button>
+                </form>
+            </div>
+
+            <!-- Auto-Reply Rules Manager -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                <h3 class="font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-robot text-purple-400"></i> Rules Bot Balas Otomatis
+                </h3>
+                <p class="text-xs text-slate-400 mb-4">Bot akan membalas otomatis jika pesan customer mengandung kata kunci berikut:</p>
+
+                <!-- Keyword List -->
+                <div id="keywordList" class="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                    <!-- Rules via JS -->
+                </div>
+
+                <!-- Add New Rule Form -->
+                <div class="mt-4 pt-4 border-t border-slate-800 space-y-2">
+                    <span class="text-xs font-bold text-slate-300">Tambah Kata Kunci & Balasan Baru:</span>
+                    <input type="text" id="newKeywordInput" placeholder="Kata Kunci (misal: 'garansi')" class="w-full bg-slate-950 text-slate-200 text-xs rounded-lg p-2 border border-slate-800">
+                    <textarea id="newResponseInput" placeholder="Pesan Balasan Otomatis Bot..." class="w-full bg-slate-950 text-slate-200 text-xs rounded-lg p-2 border border-slate-800 h-16"></textarea>
+                    <button onclick="addBotRule()" class="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-lg transition">
+                        + Tambah Rule Auto-Reply
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TOP UP GAME & PEMBELIAN -->
+    <div id="productModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative my-8">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-950/80 rounded-full w-8 h-8 flex items-center justify-center z-10 border border-slate-800">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="modalBody" class="p-6">
+                <!-- Modal content dynamically injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL KERANJANG BELANJA -->
+    <div id="cartModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex justify-end">
+        <div class="bg-slate-900 w-full max-w-md h-full flex flex-col justify-between p-6 border-l border-slate-800 shadow-2xl">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                    <h3 class="text-lg font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-cart-shopping text-indigo-400"></i> Keranjang Belanja
+                    </h3>
+                    <button onclick="toggleCart()" class="text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+                <div id="cartItemsList" class="py-4 space-y-3 max-h-[65vh] overflow-y-auto">
+                    <!-- Cart items via JS -->
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-4 space-y-4">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Total Pembayaran:</span>
+                    <span id="cartTotalPrice" class="text-xl font-black text-emerald-400">Rp 0</span>
+                </div>
+                <button onclick="checkoutCart()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 glow-emerald">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Checkout via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WIDGET LIVE CHAT INTERAKTIF (Floating Chatbox) -->
+    <div id="chatWidget" class="fixed bottom-5 right-5 z-40 flex flex-col items-end">
+        
+        <!-- Chatbox Drawer -->
+        <div id="chatBoxDrawer" class="hidden w-80 sm:w-96 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden mb-3 flex flex-col h-96">
+            <!-- Header Chat -->
+            <div class="bg-gradient-to-r from-indigo-700 to-purple-700 p-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Live Chat Net Map Story</h4>
+                        <span class="block text-[10px] text-indigo-200"><i class="fa-solid fa-circle text-emerald-400 text-[6px]"></i> Bot Online & Balas Otomatis</span>
+                    </div>
+                </div>
+                <button onclick="toggleLiveChat()" class="text-white/80 hover:text-white text-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Messages Area -->
+            <div id="customerChatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs">
+                <!-- Customer Chat Messages via JS -->
+            </div>
+
+            <!-- Form Send Message -->
+            <form onsubmit="sendCustomerMessage(event)" class="p-2 border-t border-slate-800 flex gap-2 bg-slate-950">
+                <input type="text" id="customerChatInput" placeholder="Ketik pesan / pertanyaan..." class="flex-1 bg-slate-900 text-slate-200 text-xs rounded-xl px-3 py-2 border border-slate-800 focus:outline-none focus:border-indigo-500">
+                <button type="submit" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition text-xs">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Floating Chat Button Trigger -->
+        <button onclick="toggleLiveChat()" class="w-14 h-14 bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 transition glow-effect relative">
+            <i class="fa-solid fa-comments text-2xl"></i>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 mt-16 py-10 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <span class="text-lg font-black text-white">net map story</span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Pusat layanan digital & Top Up Game terpercaya. Transaksi otomatis 24 jam dengan proses secepat kilat.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Kategori Populer</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#katalog" onclick="filterCategory('topup')" class="hover:text-indigo-400 transition">Top Up Diamond MLBB & FF</a></li>
+                    <li><a href="#katalog" onclick="filterCategory('topup')" class="hover:text-indigo-400 transition">Genshin & Valorant VP</a></li>
+                    <li><a href="#katalog" onclick="filterCategory('game_item')" class="hover:text-indigo-400 transition">Akun Game Sultan</a></li>
+                    <li><a href="#katalog" onclick="filterCategory('software')" class="hover:text-indigo-400 transition">Software & License Key</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Metode Pembayaran</h4>
+                <div class="flex flex-wrap gap-1.5 text-xs">
+                    <span class="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-slate-300">QRIS</span>
+                    <span class="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-slate-300">DANA</span>
+                    <span class="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-slate-300">OVO</span>
+                    <span class="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-slate-300">Gopay</span>
+                    <span class="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-slate-300">BCA / Mandiri</span>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Hubungi Kami</h4>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-emerald-400"></i> WA: +62 812-3456-7890</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-indigo-400"></i> support@netmapstory.com</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-clock text-amber-400"></i> Layanan 24 Jam Nonstop</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-slate-900 text-center text-xs text-slate-600">
+            &copy; 2026 Net Map Story - All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // DATA PRODUK DIGITAL & TOP UP GAME LENGKAP
+        const products = [
+            {
+                id: 101,
+                name: "Mobile Legends - Top Up Diamond",
+                category: "topup",
+                price: 15000,
+                originalPrice: 20000,
+                rating: 4.9,
+                badge: "Terpopuler",
+                image: "https://placehold.co/600x400/312e81/ffffff?text=Mobile+Legends+MLBB",
+                requiresZoneId: true,
+                denominations: [
+                    { name: "86 Diamond (77+9)", price: 19000 },
+                    { name: "172 Diamond", price: 38000 },
+                    { name: "257 Diamond", price: 57000 },
+                    { name: "706 Diamond (Weekly Pass)", price: 145000 },
+                    { name: "2195 Diamond Sultan", price: 450000 }
+                ],
+                description: "Top up Diamond Mobile Legends Bang Bang via User ID & Zone ID. Proses cepat 1-3 detik, legal 100%."
+            },
+            {
+                id: 102,
+                name: "Free Fire - Top Up Diamond",
+                category: "topup",
+                price: 10000,
+                originalPrice: 15000,
+                rating: 4.9,
+                badge: "Proses Kilat",
+                image: "https://placehold.co/600x400/831843/ffffff?text=Free+Fire+FF",
+                requiresZoneId: false,
+                denominations: [
+                    { name: "140 Diamond", price: 18500 },
+                    { name: "355 Diamond", price: 46000 },
+                    { name: "720 Diamond", price: 92000 },
+                    { name: "2000 Diamond", price: 250000 }
+                ],
+                description: "Top up Diamond Free Fire & FF Max instan via Player ID tanpa password. Aman & legal Garansi."
+            },
+            {
+                id: 103,
+                name: "Genshin Impact - Genesis Crystal",
+                category: "topup",
+                price: 16000,
+                originalPrice: 20000,
+                rating: 4.8,
+                badge: "Resmi Hoyoverse",
+                image: "https://placehold.co/600x400/581c87/ffffff?text=Genshin+Impact",
+                requiresZoneId: true,
+                denominations: [
+                    { name: "Blessing of the Welkin Moon", price: 62000 },
+                    { name: "300+30 Genesis Crystal", price: 60000 },
+                    { name: "980+110 Genesis Crystal", price: 185000 },
+                    { name: "1980+260 Genesis Crystal", price: 375000 }
+                ],
+                description: "Genesis Crystal & Blessing Welkin Moon via UID + Server. Dapatkan bonus pembelian ganda bagi yang belum klaim."
+            },
+            {
+                id: 104,
+                name: "Valorant - Riot Points (VP)",
+                category: "topup",
+                price: 55000,
+                originalPrice: 65000,
+                rating: 4.9,
+                badge: "Riot ID",
+                image: "https://placehold.co/600x400/991b1b/ffffff?text=Valorant+VP",
+                requiresZoneId: false,
+                denominations: [
+                    { name: "475 VP", price: 55000 },
+                    { name: "1000 VP", price: 115000 },
+                    { name: "2050 VP", price: 225000 },
+                    { name: "3650 VP", price: 390000 }
+                ],
+                description: "Top Up Valorant Points (VP) via Riot Tag ID. Proses otomatis masuk dalam kurun 1-5 menit."
+            },
+            {
+                id: 105,
+                name: "PUBG Mobile - Unknown Cash (UC)",
+                category: "topup",
+                price: 14000,
+                originalPrice: 18000,
+                rating: 4.8,
+                badge: "Instant UC",
+                image: "https://placehold.co/600x400/78350f/ffffff?text=PUBG+Mobile+UC",
+                requiresZoneId: false,
+                denominations: [
+                    { name: "60 UC", price: 14500 },
+                    { name: "325 UC", price: 72000 },
+                    { name: "660 UC", price: 142000 },
+                    { name: "1800 UC", price: 370000 }
+                ],
+                description: "Top up Unknown Cash (UC) PUBG Mobile murah via Player ID."
+            },
+            {
+                id: 106,
+                name: "Akun Mobile Legends Sultan Mythic",
+                category: "game_item",
+                price: 250000,
+                originalPrice: 380000,
+                rating: 5.0,
+                badge: "Sultan",
+                image: "https://placehold.co/600x400/1e1b4b/ffffff?text=Akun+MLBB+Sultan",
+                requiresZoneId: false,
+                description: "Akun Mythic Immortal, Skin 190+ (Collector, Legend, Epic Limit). Full garansi seumur hidup anti HB."
+            },
+            {
+                id: 107,
+                name: "Voucher Google Play IDR 100K",
+                category: "voucher",
+                price: 102000,
+                originalPrice: 105000,
+                rating: 4.9,
+                badge: "Kode Kode",
+                image: "https://placehold.co/600x400/065f46/ffffff?text=Google+Play+100K",
+                requiresZoneId: false,
+                description: "Kode digital Google Play Store Indonesia Rp 100.000. Pengiriman otomatis via pesan/WA."
+            },
+            {
+                id: 108,
+                name: "Lisensi Windows 11 Pro Retail Lifetime",
+                category: "software",
+                price: 75000,
+                originalPrice: 160000,
+                rating: 4.9,
+                badge: "Diskon 50%",
+                image: "https://placehold.co/600x400/1e40af/ffffff?text=Windows+11+Pro",
+                requiresZoneId: false,
+                description: "Key Lisensi Original Windows 11 Pro Lifetime 1 PC. Aktivasi resmi Microsoft secara online."
+            }
+        ];
+
+        // BOT AUTO-REPLY RULES MATRIX
+        let botRules = [
+            { keyword: "diamond", response: "Untuk Top Up Diamond (MLBB, FF, Genshin, VP), silakan pilih produk game di katalog, masukkan User ID / Zone ID, lalu pilih paket diamond yang kamu mau ya!" },
+            { keyword: "harga", response: "Harga produk kami sangat bersaing! Silakan klik produk yang kamu minati untuk melihat daftar harga lengkapnya." },
+            { keyword: "cara topup", response: "Cara Top Up: 1. Pilih Game -> 2. Isikan User ID / Zone ID -> 3. Pilih Nominal -> 4. Pilih Pembayaran -> 5. Klik Beli via WA." },
+            { keyword: "stok", response: "Semua stok produk digital dan Top Up Diamond di Net Map Story selalu READY dan aktif 24 jam!" },
+            { keyword: "pembayaran", response: "Kami menerima pembayaran via QRIS (All E-Wallet), DANA, OVO, ShopeePay, Gopay, dan Transfer Bank (BCA, Mandiri, BRI)." }
+        ];
+
+        // STATE APP
+        let cart = [];
+        let chatMessages = [
+            { sender: 'bot', text: 'Halo! Selamat datang di Net Map Story. Ada yang bisa kami bantu seputar Top Up Game atau Produk Digital?', time: 'Baru saja' }
+        ];
+        let isBotActive = true;
+
+        // FORMAT CURRENCY
+        function formatRupiah(num) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+        }
+
+        // VIEW SWITCHING (Store vs Admin)
+        function switchView(view) {
+            if (view === 'store') {
+                document.getElementById('storeView').classList.remove('hidden');
+                document.getElementById('adminView').classList.add('hidden');
+                document.getElementById('viewModeLabel').textContent = 'Mode Admin';
+            } else {
+                document.getElementById('storeView').classList.add('hidden');
+                document.getElementById('adminView').classList.remove('hidden');
+                document.getElementById('viewModeLabel').textContent = 'Mode Toko';
+                renderAdminChat();
+                renderBotRules();
+            }
+        }
+
+        function toggleAdminView() {
+            const isStore = !document.getElementById('storeView').classList.contains('hidden');
+            switchView(isStore ? 'admin' : 'store');
+        }
+
+        // RENDER PRODUCTS
+        function renderProducts(items) {
+            const grid = document.getElementById('productGrid');
+            const empty = document.getElementById('emptyState');
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            items.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col justify-between group";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="relative aspect-video bg-slate-950 overflow-hidden">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <span class="absolute top-2 left-2 bg-indigo-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md backdrop-blur-sm">
+                                ${p.badge}
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <div class="flex items-center gap-1 text-amber-400 text-xs font-bold">
+                                <i class="fa-solid fa-star"></i> <span>${p.rating}</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-white line-clamp-1 group-hover:text-indigo-400 transition">${p.name}</h3>
+                            <p class="text-xs text-slate-400 line-clamp-2">${p.description}</p>
+                            <div class="flex items-baseline gap-2 pt-1">
+                                <span class="text-sm font-black text-indigo-400">${p.denominations ? 'Mulai ' + formatRupiah(p.denominations[0].price) : formatRupiah(p.price)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0">
+                        <button onclick="openProductModal(${p.id})" class="w-full py-2 bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> ${p.category === 'topup' ? 'Top Up' : 'Beli / Detail'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // FILTER CATEGORY
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-500');
+                b.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+            });
+            event.target.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+            event.target.classList.add('bg-indigo-600', 'text-white', 'border-indigo-500');
+
+            if (cat === 'all') renderProducts(products);
+            else renderProducts(products.filter(p => p.category === cat));
+        }
+
+        // SEARCH
+        function searchProducts() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderProducts(products.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)));
+        }
+        function searchProductsMobile() {
+            const q = document.getElementById('searchInputMobile').value.toLowerCase();
+            renderProducts(products.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)));
+        }
+
+        // PRODUCT MODAL & FORM TOP UP
+        let currentModalProduct = null;
+        let selectedDenomination = null;
+        let selectedPaymentMethod = 'QRIS';
+
+        function openProductModal(id) {
+            currentModalProduct = products.find(p => p.id === id);
+            selectedDenomination = currentModalProduct.denominations ? currentModalProduct.denominations[0] : null;
+            selectedPaymentMethod = 'QRIS';
+
+            const modalBody = document.getElementById('modalBody');
+            
+            let html = `
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 pb-3 border-b border-slate-800">
+                        <img src="${currentModalProduct.image}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
+                        <div>
+                            <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">${currentModalProduct.badge}</span>
+                            <h3 class="text-lg font-bold text-white">${currentModalProduct.name}</h3>
+                            <p class="text-xs text-slate-400">${currentModalProduct.description}</p>
+                        </div>
+                    </div>
+            `;
+
+            // Form Input User ID / Zone ID jika produk Top Up Game
+            if (currentModalProduct.category === 'topup') {
+                html += `
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-gear text-indigo-400"></i> Langkah 1: Masukkan Data Akun Game
+                        </h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">User ID / Player ID *</label>
+                                <input type="text" id="inputUserId" placeholder="Contoh: 12345678" class="w-full bg-slate-900 text-slate-200 text-xs rounded-lg p-2.5 border border-slate-800 focus:outline-none focus:border-indigo-500">
+                            </div>
+                            ${currentModalProduct.requiresZoneId ? `
+                            <div>
+                                <label class="block text-[11px] text-slate-400 mb-1">Zone ID / Server *</label>
+                                <input type="text" id="inputZoneId" placeholder="Contoh: 2124 / Asia" class="w-full bg-slate-900 text-slate-200 text-xs rounded-lg p-2.5 border border-slate-800 focus:outline-none focus:border-indigo-500">
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Pilihan Denominasi Nominal Diamond
+            if (currentModalProduct.denominations) {
+                html += `
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Langkah 2: Pilih Nominal Diamond / Item</h4>
+                        <div class="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+                            ${currentModalProduct.denominations.map((denom, idx) => `
+                                <button type="button" onclick="selectDenom(${idx}, this)" class="denom-btn p-3 rounded-xl border ${idx === 0 ? 'border-indigo-500 bg-indigo-500/10 text-white' : 'border-slate-800 bg-slate-950 text-slate-400'} text-left transition hover:border-slate-700">
+                                    <div class="text-xs font-bold">${denom.name}</div>
+                                    <div class="text-xs text-indigo-400 font-extrabold mt-1">${formatRupiah(denom.price)}</div>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Pilihan Metode Pembayaran
+            html += `
+                <div>
+                    <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Langkah 3: Pilih Metode Pembayaran</h4>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <button type="button" onclick="selectPayment('QRIS', this)" class="pay-btn p-2.5 rounded-xl border border-indigo-500 bg-indigo-500/10 text-white font-bold flex items-center justify-between">
+                            <span>QRIS (All E-Wallet)</span> <i class="fa-solid fa-qrcode text-indigo-400"></i>
+                        </button>
+                        <button type="button" onclick="selectPayment('DANA', this)" class="pay-btn p-2.5 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 font-bold flex items-center justify-between hover:border-slate-700">
+                            <span>DANA</span> <i class="fa-solid fa-wallet text-sky-400"></i>
+                        </button>
+                        <button type="button" onclick="selectPayment('OVO/Gopay', this)" class="pay-btn p-2.5 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 font-bold flex items-center justify-between hover:border-slate-700">
+                            <span>OVO / Gopay</span> <i class="fa-solid fa-mobile-screen text-purple-400"></i>
+                        </button>
+                        <button type="button" onclick="selectPayment('Bank Transfer', this)" class="pay-btn p-2.5 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 font-bold flex items-center justify-between hover:border-slate-700">
+                            <span>Bank Transfer</span> <i class="fa-solid fa-building-columns text-emerald-400"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-2">
+                    <button onclick="addToCartFromModal()" class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition">
+                        + Keranjang
+                    </button>
+                    <button onclick="directCheckoutWA()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-2 glow-emerald">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Beli Sekarang
+                    </button>
+                </div>
+            `;
+
+            modalBody.innerHTML = html;
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function selectDenom(idx, btn) {
+            selectedDenomination = currentModalProduct.denominations[idx];
+            document.querySelectorAll('.denom-btn').forEach(b => {
+                b.classList.remove('border-indigo-500', 'bg-indigo-500/10', 'text-white');
+                b.classList.add('border-slate-800', 'bg-slate-950', 'text-slate-400');
+            });
+            btn.classList.remove('border-slate-800', 'bg-slate-950', 'text-slate-400');
+            btn.classList.add('border-indigo-500', 'bg-indigo-500/10', 'text-white');
+        }
+
+        function selectPayment(method, btn) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.pay-btn').forEach(b => {
+                b.classList.remove('border-indigo-500', 'bg-indigo-500/10', 'text-white');
+                b.classList.add('border-slate-800', 'bg-slate-950', 'text-slate-400');
+            });
+            btn.classList.remove('border-slate-800', 'bg-slate-950', 'text-slate-400');
+            btn.classList.add('border-indigo-500', 'bg-indigo-500/10', 'text-white');
+        }
+
+        // DIRECT CHECKOUT VIA WHATSAPP
+        function directCheckoutWA() {
+            const userId = document.getElementById('inputUserId') ? document.getElementById('inputUserId').value.trim() : '';
+            const zoneId = document.getElementById('inputZoneId') ? document.getElementById('inputZoneId').value.trim() : '';
+
+            if (currentModalProduct.category === 'topup' && !userId) {
+                alert('Silakan isi User ID / Player ID game terlebih dahulu!');
+                return;
+            }
+
+            const itemName = selectedDenomination ? `${currentModalProduct.name} (${selectedDenomination.name})` : currentModalProduct.name;
+            const itemPrice = selectedDenomination ? selectedDenomination.price : currentModalProduct.price;
+
+            let msg = `Halo Admin Net Map Story, saya ingin pesan:\n\n` +
+                      `*Produk:* ${itemName}\n` +
+                      `*Harga:* ${formatRupiah(itemPrice)}\n`;
+
+            if (userId) msg += `*User ID:* ${userId}\n`;
+            if (zoneId) msg += `*Zone ID / Server:* ${zoneId}\n`;
+
+            msg += `*Metode Pembayaran:* ${selectedPaymentMethod}\n\n` +
+                   `Mohon segera diproses. Terima kasih!`;
+
+            window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // CART MANAGEMENT
+        function addToCartFromModal() {
+            const userId = document.getElementById('inputUserId') ? document.getElementById('inputUserId').value.trim() : '';
+            const zoneId = document.getElementById('inputZoneId') ? document.getElementById('inputZoneId').value.trim() : '';
+
+            const itemName = selectedDenomination ? `${currentModalProduct.name} - ${selectedDenomination.name}` : currentModalProduct.name;
+            const itemPrice = selectedDenomination ? selectedDenomination.price : currentModalProduct.price;
+
+            cart.push({
+                id: Date.now(),
+                name: itemName,
+                price: itemPrice,
+                userId: userId,
+                zoneId: zoneId
+            });
+
+            updateCartUI();
+            closeModal();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').textContent = cart.length;
+            const list = document.getElementById('cartItemsList');
+            const totalEl = document.getElementById('cartTotalPrice');
+
+            if (cart.length === 0) {
+                list.innerHTML = `<p class="text-center text-slate-500 text-xs py-8">Keranjang belanja kosong.</p>`;
+                totalEl.textContent = formatRupiah(0);
+                return;
+            }
+
+            list.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price;
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs";
+                div.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-white">${item.name}</h4>
+                        ${item.userId ? `<p class="text-[10px] text-slate-400">ID: ${item.userId} ${item.zoneId ? '('+item.zoneId+')' : ''}</p>` : ''}
+                        <p class="text-indigo-400 font-extrabold mt-1">${formatRupiah(item.price)}</p>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-300 p-1">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
+                list.appendChild(div);
+            });
+
+            totalEl.textContent = formatRupiah(total);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            document.getElementById('cartModal').classList.toggle('hidden');
+        }
+
+        function checkoutCart() {
+            if (cart.length === 0) return;
+
+            let itemsText = cart.map(i => `- ${i.name} ${i.userId ? '[ID: ' + i.userId + ']' : ''} = ${formatRupiah(i.price)}`).join('\n');
+            let total = cart.reduce((sum, i) => sum + i.price, 0);
+
+            const msg = `Halo Net Map Story, saya checkout keranjang saya:\n\n${itemsText}\n\n*Total:* ${formatRupiah(total)}\n\nMohon dikirim instruksi pembayaran.`;
+            window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // LIVE CHAT & AUTO-REPLY BOT LOGIC
+        function toggleLiveChat() {
+            document.getElementById('chatBoxDrawer').classList.toggle('hidden');
+            renderCustomerChat();
+        }
+
+        function sendCustomerMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('customerChatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Add Customer Message
+            chatMessages.push({ sender: 'customer', text: text, time: 'Baru saja' });
+            input.value = '';
+            renderCustomerChat();
+            renderAdminChat();
+
+            // Trigger Bot Auto Reply if active
+            if (isBotActive) {
+                setTimeout(() => {
+                    const reply = getBotReply(text);
+                    chatMessages.push({ sender: 'bot', text: reply, time: 'Baru saja' });
+                    renderCustomerChat();
+                    renderAdminChat();
+                    
+                    // Increment Bot Stats
+                    const statBot = document.getElementById('statBotReplies');
+                    if (statBot) statBot.textContent = parseInt(statBot.textContent) + 1;
+                }, 1000);
+            }
+        }
+
+        function getBotReply(userText) {
+            const lower = userText.toLowerCase();
+            for (let rule of botRules) {
+                if (lower.includes(rule.keyword)) {
+                    return rule.response;
+                }
+            }
+            return "Terima kasih telah menghubungi Net Map Story. Pesan Anda telah diterima admin dan akan segera direspon manual jika butuh bantuan lanjutan!";
+        }
+
+        function renderCustomerChat() {
+            const container = document.getElementById('customerChatMessages');
+            container.innerHTML = '';
+
+            chatMessages.forEach(msg => {
+                const isCustomer = msg.sender === 'customer';
+                const div = document.createElement('div');
+                div.className = `flex ${isCustomer ? 'justify-end' : 'justify-start'}`;
+                
+                div.innerHTML = `
+                    <div class="max-w-[80%] rounded-2xl p-2.5 ${isCustomer ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-slate-800 text-slate-200 border border-slate-700 rounded-bl-none'} text-xs">
+                        <p>${msg.text}</p>
+                        <span class="block text-[9px] ${isCustomer ? 'text-indigo-200' : 'text-slate-400'} text-right mt-1">${msg.time}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ADMIN PANEL LOGIC
+        function renderAdminChat() {
+            const container = document.getElementById('adminChatBox');
+            if (!container) return;
+            container.innerHTML = '';
+
+            chatMessages.forEach(msg => {
+                const div = document.createElement('div');
+                let tag = msg.sender === 'customer' ? 'Customer' : (msg.sender === 'bot' ? 'Bot Auto-Reply' : 'Admin Manual');
+                let color = msg.sender === 'customer' ? 'bg-indigo-950/80 border-indigo-800 text-indigo-200' : (msg.sender === 'bot' ? 'bg-purple-950/80 border-purple-800 text-purple-200' : 'bg-emerald-950/80 border-emerald-800 text-emerald-200');
+
+                div.className = `p-3 rounded-xl border ${color} text-xs`;
+                div.innerHTML = `
+                    <div class="flex justify-between font-bold mb-1">
+                        <span>${tag}</span>
+                        <span class="text-[10px] opacity-70">${msg.time}</span>
+                    </div>
+                    <p>${msg.text}</p>
+                `;
+                container.appendChild(div);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendAdminMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('adminReplyInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            chatMessages.push({ sender: 'admin', text: text, time: 'Baru saja' });
+            input.value = '';
+            renderAdminChat();
+            renderCustomerChat();
+        }
+
+        function toggleBotStatus() {
+            isBotActive = !isBotActive;
+            const txt = document.getElementById('botStatusText');
+            const dot = document.getElementById('botToggleDot');
+            const btn = document.getElementById('botToggleBtn');
+
+            if (isBotActive) {
+                txt.textContent = "AKTIF (Auto Replying)";
+                txt.className = "text-xs font-bold text-emerald-400";
+                btn.className = "w-12 h-6 bg-emerald-600 rounded-full relative p-1 transition";
+                dot.className = "w-4 h-4 bg-white rounded-full absolute right-1 transition";
+            } else {
+                txt.textContent = "NONAKTIF (Manual Admin Only)";
+                txt.className = "text-xs font-bold text-red-400";
+                btn.className = "w-12 h-6 bg-slate-700 rounded-full relative p-1 transition";
+                dot.className = "w-4 h-4 bg-white rounded-full absolute left-1 transition";
+            }
+        }
+
+        function renderBotRules() {
+            const list = document.getElementById('keywordList');
+            if (!list) return;
+            list.innerHTML = '';
+
+            botRules.forEach((rule, idx) => {
+                const div = document.createElement('div');
+                div.className = "bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs flex justify-between items-start gap-2";
+                div.innerHTML = `
+                    <div>
+                        <span class="px-2 py-0.5 bg-purple-500/20 text-purple-300 rounded text-[10px] font-bold">Keyword: "${rule.keyword}"</span>
+                        <p class="text-slate-300 mt-1 text-[11px]">${rule.response}</p>
+                    </div>
+                    <button onclick="removeBotRule(${idx})" class="text-red-400 hover:text-red-300 p-1">
+                        <i class="fa-solid fa-trash text-xs"></i>
+                    </button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function addBotRule() {
+            const kw = document.getElementById('newKeywordInput').value.trim().toLowerCase();
+            const resp = document.getElementById('newResponseInput').value.trim();
+
+            if (!kw || !resp) {
+                alert('Kata kunci dan pesan balasan wajib diisi!');
+                return;
+            }
+
+            botRules.push({ keyword: kw, response: resp });
+            document.getElementById('newKeywordInput').value = '';
+            document.getElementById('newResponseInput').value = '';
+            renderBotRules();
+        }
+
+        function removeBotRule(idx) {
+            botRules.splice(idx, 1);
+            renderBotRules();
+        }
+
+        // INITIALIZE APP
+        window.onload = function() {
+            renderProducts(products);
+            renderCustomerChat();
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
